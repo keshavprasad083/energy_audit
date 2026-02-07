@@ -161,7 +161,7 @@ def box_score_display(
 
     Returns Rich markup like:
         ┌─ BOX 1 ──────────────┐
-        │ MANAGE THE PRESENT    │
+        │ CURRENT OPERATIONS    │
         │ ████████████░░░░ 72/100 B │
         └───────────────────────┘
     """

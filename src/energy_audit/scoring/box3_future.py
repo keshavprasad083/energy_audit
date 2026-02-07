@@ -1,4 +1,4 @@
-"""Box 3: Create the Future -- scoring of forward-looking readiness.
+"""Box 3: Future Readiness -- scoring of forward-looking readiness.
 
 Evaluates the facility's preparedness for future growth including capacity
 forecasting, hardware refresh planning, workload scheduling optimization,
@@ -20,6 +20,7 @@ from energy_audit.scoring.thresholds import (
 )
 from energy_audit.scoring.weights import (
     BOX3_FORECAST_WEIGHT,
+    BOX3_NAME,
     BOX3_REFRESH_WEIGHT,
     BOX3_RENEWABLE_WEIGHT,
     BOX3_SCHEDULING_WEIGHT,
@@ -293,7 +294,7 @@ def _score_trend(dc: DataCenter) -> tuple[float, float, list[str]]:
 # ---------------------------------------------------------------------------
 
 def score_box3(dc: DataCenter) -> BoxScore:
-    """Compute the Box 3 (Create the Future) score.
+    """Compute the Box 3 (Future Readiness) score.
 
     Evaluates forward-looking readiness across five sub-metrics: forecast
     readiness, hardware refresh planning, scheduling optimization, renewable
@@ -386,7 +387,7 @@ def score_box3(dc: DataCenter) -> BoxScore:
 
     return BoxScore(
         box_number=3,
-        box_name="Create the Future",
+        box_name=BOX3_NAME,
         overall_score=overall,
         grade=overall_grade,
         sub_metrics=sub_metrics,

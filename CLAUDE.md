@@ -2,11 +2,11 @@
 
 ## Project Overview
 
-A Python CLI tool that assesses energy usage and consumption by data centers and cloud servers running AI workloads. It applies **Vijay Govindarajan's 3-Box Strategy** framework to present results organized around three strategic pillars:
+A Python CLI tool that assesses energy usage and consumption by data centers and cloud servers running AI workloads. Results are organized around three assessment pillars:
 
-- **Box 1: Manage the Present** — Current energy efficiency, PUE scoring, utilization rates, cost breakdown
-- **Box 2: Selectively Forget the Past** — Zombie servers, legacy hardware, over-provisioned resources, cooling waste
-- **Box 3: Create the Future** — Capacity forecasting, hardware refresh cycles, workload scheduling optimization, renewable energy
+- **Box 1: Current Operations** — Energy efficiency, PUE scoring, utilization rates, cost breakdown
+- **Box 2: Legacy & Waste** — Zombie servers, legacy hardware, over-provisioned resources, cooling waste
+- **Box 3: Future Readiness** — Capacity forecasting, hardware refresh cycles, workload scheduling, renewable energy
 
 ## Key Design Decisions
 
@@ -22,9 +22,9 @@ A Python CLI tool that assesses energy usage and consumption by data centers and
 
 ```
 src/energy_audit/
-├── cli/           # Click commands (app.py, commands/)
+├── cli/           # Click commands (app.py)
 ├── data/          # Pydantic models, DC profiles, simulated data generator
-├── scoring/       # 3-box scoring engine with weighted sub-metrics
+├── scoring/       # Scoring engine with weighted sub-metrics
 ├── analysis/      # Domain analyzers (zombie, overprovisioning, cooling, etc.)
 ├── recommendations/  # Recommendation engine with impact calculation
 └── reporting/     # Terminal renderer, ASCII charts, Matplotlib charts, PDF builder
@@ -33,7 +33,7 @@ src/energy_audit/
 ## CLI Commands
 
 ```bash
-energy-audit run [-p PROFILE] [-s SEED] [--export-pdf PATH]   # Full 3-box audit
+energy-audit run [-p PROFILE] [-s SEED] [--export-pdf PATH]   # Full audit
 energy-audit present [-p PROFILE] [-s SEED]                    # Box 1 only
 energy-audit forget [-p PROFILE] [-s SEED]                     # Box 2 only
 energy-audit future [-p PROFILE] [-s SEED]                     # Box 3 only
@@ -47,9 +47,9 @@ energy-audit dashboard [-p PROFILE]                            # Compact summary
 
 ### Overall Score = Box1 (40%) + Box2 (30%) + Box3 (30%)
 
-**Box 1 (Manage Present)**: PUE(25%) + Utilization(20%) + Cost(20%) + Cooling(15%) + Availability(10%) + Carbon(10%)
-**Box 2 (Forget Past)**: Zombies(30%) + OverProvisioned(25%) + Legacy(20%) + CoolingWaste(15%) + Stranded(10%)
-**Box 3 (Create Future)**: Forecast(20%) + HWRefresh(20%) + Scheduling(20%) + Renewable(20%) + Trend(20%)
+**Box 1 (Current Operations)**: PUE(25%) + Utilization(20%) + Cost(20%) + Cooling(15%) + Availability(10%) + Carbon(10%)
+**Box 2 (Legacy & Waste)**: Zombies(30%) + OverProvisioned(25%) + Legacy(20%) + CoolingWaste(15%) + Stranded(10%)
+**Box 3 (Future Readiness)**: Forecast(20%) + HWRefresh(20%) + Scheduling(20%) + Renewable(20%) + Trend(20%)
 
 ### Grades
 - A (85-100): Excellent / Green
@@ -75,16 +75,6 @@ click, rich, rich-click, pydantic, numpy, matplotlib, reportlab
 pip install -e ".[dev]"        # Install with dev dependencies
 pytest tests/                   # Run tests
 energy-audit run -p medium_enterprise -s 42   # Test run
-```
-
-## Build & Run Instructions
-
-```bash
-cd /Users/keshavprasad083/Projects/energy-audit
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .
-energy-audit --help
 ```
 
 ## Coding Conventions

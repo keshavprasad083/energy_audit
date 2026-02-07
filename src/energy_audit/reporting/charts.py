@@ -80,11 +80,11 @@ class ChartGenerator:
     def __init__(self, result: AuditResult) -> None:
         self.result = result
 
-    # -- 1. Radar / spider chart for three-box scores ----------------------
+    # -- 1. Radar / spider chart for pillar scores --------------------------
 
     def three_box_radar(self) -> Figure:
         """Radar (spider) chart showing Box 1, Box 2, and Box 3 scores."""
-        labels = ["Box 1: Present", "Box 2: Past", "Box 3: Future"]
+        labels = ["Box 1: Operations", "Box 2: Legacy", "Box 3: Future"]
         scores = [
             self.result.box1.overall_score,
             self.result.box2.overall_score,
@@ -129,7 +129,7 @@ class ChartGenerator:
             )
 
         ax.set_title(
-            "Three-Box Strategy Scores",
+            "Assessment Pillar Scores",
             fontsize=16,
             fontweight="bold",
             pad=24,

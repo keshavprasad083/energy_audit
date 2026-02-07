@@ -1,15 +1,22 @@
-"""Scoring weight constants for the three-box energy audit framework.
+"""Scoring weight constants for the energy audit framework.
 
 All weights within a box must sum to 1.0.  The three box weights define
-the contribution of each strategic pillar to the overall facility score.
+the contribution of each assessment pillar to the overall facility score.
 """
+
+# ---------------------------------------------------------------------------
+# Box display names (single source of truth for all modules)
+# ---------------------------------------------------------------------------
+BOX1_NAME = "Current Operations"
+BOX2_NAME = "Legacy & Waste"
+BOX3_NAME = "Future Readiness"
 
 # ---------------------------------------------------------------------------
 # Box weights in overall score
 # ---------------------------------------------------------------------------
-BOX1_WEIGHT = 0.40  # Manage the Present
-BOX2_WEIGHT = 0.30  # Selectively Forget the Past
-BOX3_WEIGHT = 0.30  # Create the Future
+BOX1_WEIGHT = 0.40  # Current Operations
+BOX2_WEIGHT = 0.30  # Legacy & Waste
+BOX3_WEIGHT = 0.30  # Future Readiness
 
 # ---------------------------------------------------------------------------
 # Box 1 sub-metric weights (must sum to 1.0)

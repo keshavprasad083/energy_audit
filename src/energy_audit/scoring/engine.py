@@ -1,4 +1,4 @@
-"""Master scoring orchestrator for the three-box energy audit framework.
+"""Master scoring orchestrator for the energy audit framework.
 
 Delegates to the individual box scorers and computes the weighted overall
 score and grade.
@@ -26,7 +26,7 @@ class ScoringEngine:
     def score(
         self, dc: DataCenter
     ) -> tuple[BoxScore, BoxScore, BoxScore, float, Grade]:
-        """Run the full three-box scoring pipeline.
+        """Run the full scoring pipeline.
 
         Args:
             dc: A fully populated ``DataCenter`` snapshot.

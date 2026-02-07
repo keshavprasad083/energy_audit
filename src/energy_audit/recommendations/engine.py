@@ -66,12 +66,12 @@ class RecommendationEngine:
         dc:
             The data-center snapshot to analyze.
         box1:
-            Box 1 (Manage the Present) score -- used for PUE insight.
+            Box 1 (Current Operations) score -- used for PUE insight.
         box2:
-            Box 2 (Selectively Forget the Past) score -- used for
-            zombie / legacy findings.
+            Box 2 (Legacy & Waste) score -- used for zombie / legacy
+            findings.
         box3:
-            Box 3 (Create the Future) score -- used for scheduling /
+            Box 3 (Future Readiness) score -- used for scheduling /
             renewable findings.
 
         Returns

@@ -1,4 +1,4 @@
-"""Box 1: Manage the Present -- scoring of current energy efficiency.
+"""Box 1: Current Operations -- scoring of current energy efficiency.
 
 Evaluates real-time operational metrics including PUE, server utilization,
 energy cost, cooling performance, availability, and carbon intensity.
@@ -27,6 +27,7 @@ from energy_audit.scoring.weights import (
     BOX1_CARBON_WEIGHT,
     BOX1_COOLING_WEIGHT,
     BOX1_COST_WEIGHT,
+    BOX1_NAME,
     BOX1_PUE_WEIGHT,
     BOX1_UTILIZATION_WEIGHT,
 )
@@ -171,7 +172,7 @@ def _score_carbon(dc: DataCenter) -> tuple[float, float]:
 # ---------------------------------------------------------------------------
 
 def score_box1(dc: DataCenter) -> BoxScore:
-    """Compute the Box 1 (Manage the Present) score.
+    """Compute the Box 1 (Current Operations) score.
 
     Evaluates current operational efficiency across six sub-metrics:
     PUE, utilization, cost, cooling, availability, and carbon intensity.
@@ -306,7 +307,7 @@ def score_box1(dc: DataCenter) -> BoxScore:
 
     return BoxScore(
         box_number=1,
-        box_name="Manage the Present",
+        box_name=BOX1_NAME,
         overall_score=overall,
         grade=overall_grade,
         sub_metrics=sub_metrics,

@@ -1,4 +1,4 @@
-"""Box 2: Selectively Forget the Past -- scoring of waste and legacy burden.
+"""Box 2: Legacy & Waste -- scoring of waste and legacy burden.
 
 Evaluates how effectively the facility retires zombie servers, decommissions
 over-provisioned resources, refreshes legacy hardware, eliminates cooling
@@ -24,6 +24,7 @@ from energy_audit.scoring.thresholds import (
 from energy_audit.scoring.weights import (
     BOX2_COOLING_WASTE_WEIGHT,
     BOX2_LEGACY_WEIGHT,
+    BOX2_NAME,
     BOX2_OVERPROV_WEIGHT,
     BOX2_STRANDED_WEIGHT,
     BOX2_ZOMBIE_WEIGHT,
@@ -205,7 +206,7 @@ def _score_stranded(dc: DataCenter) -> tuple[float, float, list[str]]:
 # ---------------------------------------------------------------------------
 
 def score_box2(dc: DataCenter) -> BoxScore:
-    """Compute the Box 2 (Selectively Forget the Past) score.
+    """Compute the Box 2 (Legacy & Waste) score.
 
     Evaluates waste and legacy burden across five sub-metrics: zombie servers,
     over-provisioned resources, legacy hardware, cooling waste, and stranded
@@ -303,7 +304,7 @@ def score_box2(dc: DataCenter) -> BoxScore:
 
     return BoxScore(
         box_number=2,
-        box_name="Selectively Forget the Past",
+        box_name=BOX2_NAME,
         overall_score=overall,
         grade=overall_grade,
         sub_metrics=sub_metrics,

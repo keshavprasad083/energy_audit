@@ -9,3 +9,8 @@ build/
 *.pdf
 *.png
 .DS_Store
+.pytest_cache/
+htmlcov/
+.coverage
+.idea/
+.vscode/

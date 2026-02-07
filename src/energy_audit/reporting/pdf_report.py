@@ -1,7 +1,7 @@
 """ReportLab-based PDF report generator for energy audit results.
 
-Produces an 8-page professional PDF report covering the complete 3-Box
-Strategy audit, including embedded Matplotlib charts, scoring tables,
+Produces an 8-page professional PDF report covering the complete energy
+audit, including embedded Matplotlib charts, scoring tables,
 recommendations, and methodology appendix.
 """
 
@@ -270,9 +270,9 @@ class PDFReportGenerator:
         # Three box score badges in a row
         boxes = [result.box1, result.box2, result.box3]
         box_labels = [
-            "Box 1: Manage the Present",
-            "Box 2: Forget the Past",
-            "Box 3: Create the Future",
+            "Box 1: Current Operations",
+            "Box 2: Legacy & Waste",
+            "Box 3: Future Readiness",
         ]
         badge_data = []
         for box, label in zip(boxes, box_labels):
@@ -323,14 +323,14 @@ class PDFReportGenerator:
 
         elements.append(Spacer(1, 0.25 * inch))
 
-        # Three-box radar chart
+        # Pillar radar chart
         self._maybe_add_chart(elements, chart_paths, 'three_box_radar',
                               width=5 * inch, height=3.5 * inch)
 
         return elements
 
     # ------------------------------------------------------------------
-    # Page 3: Box 1 - Manage the Present
+    # Page 3: Box 1 - Current Operations
     # ------------------------------------------------------------------
 
     def _build_box1(self, result: AuditResult,
@@ -338,7 +338,7 @@ class PDFReportGenerator:
         elements: list = []
         box = result.box1
 
-        elements.append(Paragraph("Box 1: Manage the Present",
+        elements.append(Paragraph("Box 1: Current Operations",
                                   self._styles['SectionTitle']))
         elements.extend(self._box_header(box))
         elements.extend(self._sub_metrics_table(box))
@@ -350,7 +350,7 @@ class PDFReportGenerator:
         return elements
 
     # ------------------------------------------------------------------
-    # Page 4: Box 2 - Selectively Forget the Past
+    # Page 4: Box 2 - Legacy & Waste
     # ------------------------------------------------------------------
 
     def _build_box2(self, result: AuditResult,
@@ -358,7 +358,7 @@ class PDFReportGenerator:
         elements: list = []
         box = result.box2
 
-        elements.append(Paragraph("Box 2: Selectively Forget the Past",
+        elements.append(Paragraph("Box 2: Legacy & Waste",
                                   self._styles['SectionTitle']))
         elements.extend(self._box_header(box))
         elements.extend(self._sub_metrics_table(box))
@@ -373,7 +373,7 @@ class PDFReportGenerator:
         return elements
 
     # ------------------------------------------------------------------
-    # Page 5: Box 3 - Create the Future
+    # Page 5: Box 3 - Future Readiness
     # ------------------------------------------------------------------
 
     def _build_box3(self, result: AuditResult,
@@ -381,7 +381,7 @@ class PDFReportGenerator:
         elements: list = []
         box = result.box3
 
-        elements.append(Paragraph("Box 3: Create the Future",
+        elements.append(Paragraph("Box 3: Future Readiness",
                                   self._styles['SectionTitle']))
         elements.extend(self._box_header(box))
         elements.extend(self._sub_metrics_table(box))
@@ -503,33 +503,33 @@ class PDFReportGenerator:
                                   self._styles['SectionTitle']))
         elements.append(Spacer(1, 0.15 * inch))
 
-        # 3-Box Strategy framework
+        # Assessment framework
         elements.append(Paragraph(
-            "<b>The 3-Box Strategy Framework</b>",
+            "<b>Three-Pillar Assessment Framework</b>",
             self._styles['SubSection'],
         ))
         elements.append(Paragraph(
-            "This energy audit applies Vijay Govindarajan's 3-Box Strategy "
-            "framework to data-center energy management. The framework organizes "
-            "findings and recommendations into three strategic pillars:",
+            "This energy audit organizes findings and recommendations into "
+            "three strategic pillars that cover current operations, legacy "
+            "burden, and future readiness:",
             self._styles['BodyText2'],
         ))
         elements.append(Spacer(1, 0.05 * inch))
         elements.append(Paragraph(
-            "<b>Box 1 - Manage the Present:</b> Evaluates current operational "
+            "<b>Box 1 - Current Operations:</b> Evaluates current operational "
             "efficiency including PUE (Power Usage Effectiveness), server utilization "
             "rates, energy cost optimization, cooling efficiency, and carbon footprint.",
             self._styles['BodyText2'],
         ))
         elements.append(Paragraph(
-            "<b>Box 2 - Selectively Forget the Past:</b> Identifies inefficiencies "
+            "<b>Box 2 - Legacy & Waste:</b> Identifies inefficiencies "
             "inherited from past decisions, such as zombie servers consuming power "
             "without useful work, overprovisioned resources, legacy hardware past "
             "warranty, and cooling waste from outdated infrastructure.",
             self._styles['BodyText2'],
         ))
         elements.append(Paragraph(
-            "<b>Box 3 - Create the Future:</b> Assesses readiness for future "
+            "<b>Box 3 - Future Readiness:</b> Assesses readiness for future "
             "demands through capacity forecasting, hardware refresh planning, "
             "workload scheduling optimization, renewable energy adoption, and "
             "PUE improvement trends.",

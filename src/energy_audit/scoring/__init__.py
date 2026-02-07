@@ -1,4 +1,4 @@
-"""Scoring engine for the three-box energy audit framework."""
+"""Scoring engine for the energy audit framework."""
 
 from energy_audit.scoring.engine import ScoringEngine
 

@@ -14,6 +14,7 @@ from rich.columns import Columns
 from rich.rule import Rule
 
 from energy_audit.data.models import AuditResult, BoxScore, Recommendation
+from energy_audit.scoring.weights import BOX1_NAME, BOX2_NAME, BOX3_NAME
 from energy_audit.reporting.ascii_charts import (
     horizontal_bar,
     mini_gauge,
@@ -35,9 +36,9 @@ class TerminalRenderer:
         self._render_overall_score(result)
         self._render_box_scores(result)
         if show_details:
-            self._render_box_detail(result.box1, "Manage the Present")
-            self._render_box_detail(result.box2, "Selectively Forget the Past")
-            self._render_box_detail(result.box3, "Create the Future")
+            self._render_box_detail(result.box1, BOX1_NAME)
+            self._render_box_detail(result.box2, BOX2_NAME)
+            self._render_box_detail(result.box3, BOX3_NAME)
         self._render_recommendations(result.recommendations)
         self._render_executive_summary(result)
         self._render_footer(result)
@@ -56,7 +57,7 @@ class TerminalRenderer:
         """Render a single box in detail."""
         self._render_header(result)
         box = {1: result.box1, 2: result.box2, 3: result.box3}[box_number]
-        names = {1: "Manage the Present", 2: "Selectively Forget the Past", 3: "Create the Future"}
+        names = {1: BOX1_NAME, 2: BOX2_NAME, 3: BOX3_NAME}
         self._render_box_detail(box, names[box_number])
         # Show recommendations for this box
         box_recs = [r for r in result.recommendations if r.box_number == box_number]
@@ -80,7 +81,7 @@ class TerminalRenderer:
         header_text.append(f" | {len(dc.racks)} racks", style="")
 
         self.console.print()
-        self.console.print(Panel(header_text, title="3-Box Strategy Energy Assessment"))
+        self.console.print(Panel(header_text, title="Energy Audit Assessment"))
 
     def _render_overall_score(self, result: AuditResult) -> None:
         color = result.overall_grade.color
@@ -234,6 +235,6 @@ class TerminalRenderer:
         self.console.print(Rule(style="dim"))
         self.console.print(
             f"  [dim]Generated: {result.timestamp.strftime('%Y-%m-%d %H:%M UTC')} | "
-            f"energy-audit v0.1.0 | 3-Box Strategy Framework[/dim]"
+            f"energy-audit v0.1.0[/dim]"
         )
         self.console.print()

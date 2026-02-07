@@ -516,9 +516,9 @@ class SubMetricScore(BaseModel):
 class BoxScore(BaseModel):
     """Aggregated score for one of the three strategy boxes.
 
-    Box 1: Manage the Present
-    Box 2: Selectively Forget the Past
-    Box 3: Create the Future
+    Box 1: Current Operations
+    Box 2: Legacy & Waste
+    Box 3: Future Readiness
     """
 
     model_config = {"frozen": False, "populate_by_name": True}
@@ -596,13 +596,13 @@ class AuditResult(BaseModel):
 
     # Three scoring boxes
     box1: BoxScore = Field(
-        ..., description="Box 1: Manage the Present"
+        ..., description="Box 1: Current Operations"
     )
     box2: BoxScore = Field(
-        ..., description="Box 2: Selectively Forget the Past"
+        ..., description="Box 2: Legacy & Waste"
     )
     box3: BoxScore = Field(
-        ..., description="Box 3: Create the Future"
+        ..., description="Box 3: Future Readiness"
     )
 
     overall_score: float = Field(

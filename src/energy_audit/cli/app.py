@@ -24,7 +24,7 @@ def _run_audit(profile_name: str, seed: int | None, console: Console) -> AuditRe
     with console.status("[bold cyan]Generating data center simulation..."):
         dc = gen.generate()
 
-    with console.status("[bold cyan]Running 3-Box scoring engine..."):
+    with console.status("[bold cyan]Running scoring engine..."):
         engine = ScoringEngine()
         box1, box2, box3, overall_score, overall_grade = engine.score(dc)
 
@@ -55,12 +55,12 @@ def _run_audit(profile_name: str, seed: int | None, console: Console) -> AuditRe
 def cli(ctx: click.Context, no_color: bool) -> None:
     """energy-audit: AI Data Center Energy Assessment Tool
 
-    Assess energy consumption using Vijay Govindarajan's 3-Box Strategy:
+    Assess data center energy consumption across three pillars:
 
     \b
-      Box 1 (Present): Current energy efficiency analysis
-      Box 2 (Past):    Identify legacy waste and zombie resources
-      Box 3 (Future):  Forecast needs and optimization opportunities
+      Box 1 (Current Operations): Energy efficiency analysis
+      Box 2 (Legacy & Waste):     Identify waste and zombie resources
+      Box 3 (Future Readiness):   Forecast needs and opportunities
     """
     ctx.ensure_object(dict)
     ctx.obj["console"] = Console(no_color=no_color)
@@ -92,7 +92,7 @@ def run(
     export_json: str | None,
     show_details: bool,
 ) -> None:
-    """Run a full 3-box energy audit."""
+    """Run a full energy audit across all three pillars."""
     console: Console = ctx.obj["console"]
     result = _run_audit(profile, seed, console)
 
@@ -116,7 +116,7 @@ def run(
 @click.option("--seed", "-s", type=int, default=None, help="Random seed for reproducibility")
 @click.pass_context
 def present(ctx: click.Context, profile: str, seed: int | None) -> None:
-    """Box 1: Analyze current energy consumption (Manage the Present)."""
+    """Box 1: Analyze current energy consumption (Current Operations)."""
     console: Console = ctx.obj["console"]
     result = _run_audit(profile, seed, console)
     renderer = TerminalRenderer(console)
@@ -133,7 +133,7 @@ def present(ctx: click.Context, profile: str, seed: int | None) -> None:
 @click.option("--seed", "-s", type=int, default=None, help="Random seed for reproducibility")
 @click.pass_context
 def forget(ctx: click.Context, profile: str, seed: int | None) -> None:
-    """Box 2: Identify legacy waste and zombies (Selectively Forget the Past)."""
+    """Box 2: Identify legacy waste and zombies (Legacy & Waste)."""
     console: Console = ctx.obj["console"]
     result = _run_audit(profile, seed, console)
     renderer = TerminalRenderer(console)
@@ -150,7 +150,7 @@ def forget(ctx: click.Context, profile: str, seed: int | None) -> None:
 @click.option("--seed", "-s", type=int, default=None, help="Random seed for reproducibility")
 @click.pass_context
 def future(ctx: click.Context, profile: str, seed: int | None) -> None:
-    """Box 3: Forecast needs and opportunities (Create the Future)."""
+    """Box 3: Forecast needs and opportunities (Future Readiness)."""
     console: Console = ctx.obj["console"]
     result = _run_audit(profile, seed, console)
     renderer = TerminalRenderer(console)
