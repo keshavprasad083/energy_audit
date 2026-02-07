@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Master scoring orchestrator for the energy audit framework.
 
 Delegates to the individual box scorers and computes the weighted overall

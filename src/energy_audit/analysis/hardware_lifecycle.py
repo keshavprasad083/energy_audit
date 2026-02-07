@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Hardware lifecycle and fleet age analysis.
 
 Analyzes the age distribution of the server fleet, identifies servers

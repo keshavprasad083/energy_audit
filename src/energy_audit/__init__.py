@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Energy Audit - AI Data Center Energy Assessment Tool."""
 
 __version__ = "0.1.0"

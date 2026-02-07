@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Impact calculation functions for each recommendation type.
 
 Every function returns a ``(monthly_savings_dollars, monthly_energy_savings_kwh)``

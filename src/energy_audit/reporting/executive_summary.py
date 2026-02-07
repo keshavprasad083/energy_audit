@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Generate a crisp executive summary readable in under 2 minutes."""
 
 from __future__ import annotations

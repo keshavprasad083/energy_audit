@@ -1,27 +1,70 @@
 # Contributing to energy-audit
 
-## Development Setup
+Thank you for your interest in contributing! This document outlines the process for contributing to this project.
+
+## How to Contribute
+
+### Fork and Branch Workflow
+
+1. **Fork** the repository on GitHub
+2. **Clone** your fork locally:
+   ```bash
+   git clone https://github.com/your-username/energy-audit.git
+   cd energy-audit
+   ```
+3. **Create a branch** for your changes:
+   ```bash
+   git checkout -b feature/my-new-feature
+   ```
+4. **Make your changes** and commit with clear, descriptive messages
+5. **Push** your branch to your fork:
+   ```bash
+   git push origin feature/my-new-feature
+   ```
+6. **Open a Pull Request** against the `main` branch of this repository
+
+### Development Setup
 
 ```bash
-git clone https://github.com/yourusername/energy-audit.git
-cd energy-audit
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-## Running Tests
+### Running Tests
 
 ```bash
 pytest tests/ -v
 ```
 
-## Linting
+### Linting
 
 ```bash
 ruff check src/
 ruff format src/
 ```
+
+### Pull Request Guidelines
+
+- Keep PRs focused on a single change
+- Include tests for new functionality
+- Ensure all existing tests pass before submitting
+- Follow the existing code style (see Code Style section below)
+- Update documentation if your change affects user-facing behavior
+
+## Contributor License Agreement (CLA)
+
+By submitting a pull request to this project, you agree to the following terms:
+
+1. You **assign copyright** of your contribution to the founding author (Keshav), granting the author full ownership of the contributed code.
+
+2. This assignment allows the author to retain **dual-licensing rights**, meaning the author may, at their sole discretion, license the project (including your contributions) under alternative license terms in the future.
+
+3. You confirm that your contribution is your **original work** and that you have the legal right to assign copyright.
+
+4. Your contribution will be distributed under the project's current license (GNU Affero General Public License v3.0) unless the author exercises dual-licensing rights.
+
+If you do not agree to these terms, please do not submit a pull request.
 
 ## Architecture
 

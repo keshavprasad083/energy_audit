@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Simulated data center generator.
 
 Given a :class:`DCProfile` and an optional random seed, this module

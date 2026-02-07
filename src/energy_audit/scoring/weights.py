@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Scoring weight constants for the energy audit framework.
 
 All weights within a box must sum to 1.0.  The three box weights define

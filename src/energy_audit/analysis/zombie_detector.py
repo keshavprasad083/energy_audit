@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Zombie server detection and waste calculation.
 
 Identifies servers that are powered on but performing no useful work,

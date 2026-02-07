@@ -152,4 +152,6 @@ energy-audit run -p medium_enterprise -s 42
 
 ## License
 
-[MIT](LICENSE)
+v2.0+ is licensed under AGPLv3. Versions prior to v2.0 were released under the MIT license.
+
+See [LICENSE](LICENSE) for full terms.

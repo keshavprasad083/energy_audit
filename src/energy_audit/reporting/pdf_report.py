@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """ReportLab-based PDF report generator for energy audit results.
 
 Produces an 8-page professional PDF report covering the complete energy

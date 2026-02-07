@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Box 3: Future Readiness -- scoring of forward-looking readiness.
 
 Evaluates the facility's preparedness for future growth including capacity

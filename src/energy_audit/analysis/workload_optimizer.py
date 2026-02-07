@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Keshav
+# Licensed under the GNU Affero General Public License v3.0
+# See LICENSE file for details.
 """Workload scheduling optimization analysis.
 
 Evaluates the potential for shifting schedulable workloads to off-peak
