@@ -1,0 +1,24 @@
+facility:
+  name: "Production DC"
+  location: "Ashburn, VA"
+  region: "us-east"
+  total_power_capacity_mw: 10.0
+  energy_cost_per_kwh: 0.09
+  carbon_intensity_gco2_per_kwh: 380.0
+  renewable_percentage: 0.20
+  pue_target: 1.4
+  cooling_type: "air"
+
+sources:
+  - type: snmp
+    endpoints:
+      - 10.0.1.100
+      - 10.0.1.101
+      - 10.0.1.102
+    options:
+      simulate: true
+      seed: 42
+    credentials:
+      value: "public"
+    timeout_seconds: 10
+    retry_count: 3

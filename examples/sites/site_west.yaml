@@ -1,0 +1,16 @@
+facility:
+  name: "DC West"
+  location: "Portland, OR"
+  region: "us-west"
+  total_power_capacity_mw: 5.0
+  energy_cost_per_kwh: 0.06
+  carbon_intensity_gco2_per_kwh: 120.0
+  renewable_percentage: 0.75
+  pue_target: 1.2
+  cooling_type: "liquid"
+
+sources:
+  - type: snmp
+    options:
+      simulate: true
+      seed: 200

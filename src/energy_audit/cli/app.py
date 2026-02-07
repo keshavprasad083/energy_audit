@@ -86,6 +86,14 @@ def cli(ctx: click.Context, no_color: bool) -> None:
     help="Export raw results as JSON at this path",
 )
 @click.option("--show-details/--no-details", default=True, help="Show detailed scoring breakdown")
+@click.option(
+    "--source", type=click.Choice(["sim", "file", "live"]), default="sim",
+    help="Data source: sim (simulated), file (CSV/JSON), live (real collectors)",
+)
+@click.option(
+    "--config", "-c", type=click.Path(), default=None,
+    help="Pro config YAML file (required for --source file/live)",
+)
 @click.pass_context
 def run(
     ctx: click.Context,
@@ -94,10 +102,24 @@ def run(
     export_pdf: str | None,
     export_json: str | None,
     show_details: bool,
+    source: str,
+    config: str | None,
 ) -> None:
     """Run a full energy audit across all three pillars."""
     console: Console = ctx.obj["console"]
-    result = _run_audit(profile, seed, console)
+
+    if source == "sim":
+        result = _run_audit(profile, seed, console)
+    else:
+        if not config:
+            console.print("[red]--config/-c is required for --source file/live[/]")
+            raise SystemExit(1)
+        try:
+            from energy_audit.pro.cli import _run_pro_audit
+            result = _run_pro_audit(config, console)
+        except ImportError:
+            console.print("[red]Pro features require: pip install -e '.[pro]'[/]")
+            raise SystemExit(1)
 
     renderer = TerminalRenderer(console)
     renderer.render(result, show_details=show_details)
@@ -343,3 +365,14 @@ def assess(
 
     if export_pdf:
         console.print("[yellow]PDF export for assessments coming soon.[/]")
+
+
+# ---------------------------------------------------------------------------
+# Register Pro CLI (if installed)
+# ---------------------------------------------------------------------------
+
+try:
+    from energy_audit.pro.cli import pro_cli
+    cli.add_command(pro_cli)
+except ImportError:
+    pass  # Pro module not installed

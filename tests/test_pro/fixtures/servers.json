@@ -1,0 +1,8 @@
+{
+  "servers": [
+    {"hostname": "api-01", "server_type_hint": "cpu", "power_watts": 210, "cpu_utilization": 0.55, "memory_utilization": 0.40, "memory_total_gb": 64, "age_months": 12, "rack_id": "rack-1"},
+    {"hostname": "api-02", "server_type_hint": "cpu", "power_watts": 195, "cpu_utilization": 0.48, "memory_utilization": 0.35, "memory_total_gb": 64, "age_months": 12, "rack_id": "rack-1"},
+    {"hostname": "ml-gpu-01", "server_type_hint": "gpu_training", "power_watts": 900, "cpu_utilization": 0.30, "gpu_utilization": 0.88, "memory_utilization": 0.70, "memory_total_gb": 512, "age_months": 6, "rack_id": "rack-2"},
+    {"hostname": "idle-box", "server_type_hint": "cpu", "power_watts": 80, "cpu_utilization": 0.02, "memory_utilization": 0.05, "memory_total_gb": 32, "age_months": 48, "rack_id": "rack-1"}
+  ]
+}
