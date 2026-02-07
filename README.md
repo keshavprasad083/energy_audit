@@ -12,6 +12,8 @@ AI Data Center Energy Assessment Tool — analyze energy consumption, identify w
 
 Each pillar produces a weighted score (0–100) with sub-metric breakdowns. The overall facility score combines all three pillars into a single letter grade (A–F).
 
+The tool also includes an **interactive maturity assessment** — a 35-question survey that data center engineers answer about their facility to receive maturity scores, bias analysis, gap analysis, and an improvement roadmap.
+
 ## Screenshots
 
 ### Full Audit Report
@@ -54,6 +56,24 @@ Compact overview for quick assessment:
 <img src="docs/screenshots/box3_future.svg" alt="Box 3 Future Readiness detail" />
 </details>
 
+### Interactive Maturity Assessment
+
+Full assessment report with maturity scores, bias analysis, gap analysis, and improvement roadmap:
+
+<img src="docs/screenshots/assessment_report.svg" alt="Interactive maturity assessment report showing pillar scores, bias warnings, gap analysis, and improvement roadmap" />
+
+<details>
+<summary>Assessment History</summary>
+
+<img src="docs/screenshots/assessment_history.svg" alt="Assessment history table showing past assessments across facilities" />
+</details>
+
+<details>
+<summary>Assessment Comparison</summary>
+
+<img src="docs/screenshots/assessment_comparison.svg" alt="Side-by-side comparison of two assessments showing score deltas and maturity transitions" />
+</details>
+
 ### Sample Reports
 
 - [Sample PDF Report](docs/samples/sample_report.pdf) — 8-page report with embedded charts, scoring tables, recommendations, and methodology appendix
@@ -62,11 +82,13 @@ Compact overview for quick assessment:
 ## Features
 
 - Rich terminal output with ASCII gauges, sparklines, and color-coded scoring
+- **Interactive maturity assessment** with 35 questions, anti-bias detection, and improvement roadmap
 - PDF reports with embedded Matplotlib charts (radar, pie, histogram, heatmap, and more)
 - JSON export for programmatic consumption
 - Four built-in data center profiles (small startup to large hyperscale)
 - Seeded random data generation for reproducible results
 - Actionable recommendations ranked by savings impact
+- Assessment history tracking with facility comparison over time
 
 ## Quick Start
 
@@ -86,6 +108,8 @@ energy-audit run -p medium_enterprise -s 42 --export-json results.json
 
 ## CLI Commands
 
+### Automated Audit
+
 ```bash
 energy-audit run       # Full audit across all three pillars
 energy-audit present   # Box 1 only (Current Operations)
@@ -94,7 +118,29 @@ energy-audit future    # Box 3 only (Future Readiness)
 energy-audit dashboard # Compact summary view
 ```
 
-All commands accept `--profile/-p` and `--seed/-s` options.
+All audit commands accept `--profile/-p` and `--seed/-s` options.
+
+### Interactive Maturity Assessment
+
+```bash
+energy-audit assess                          # Launch 35-question interactive survey
+energy-audit assess --history                # View all past assessments
+energy-audit assess --history -f "My DC"     # View history for a specific facility
+energy-audit assess --compare -f "My DC"     # Compare two most recent assessments
+```
+
+The assessment survey covers:
+- **Box 1: Current Operations** (10 questions) — monitoring, PUE, utilization, cooling, cost visibility
+- **Box 2: Legacy & Waste** (10 questions) — decommissioning, zombies, right-sizing, lifecycle management
+- **Box 3: Future Readiness** (10 questions) — forecasting, renewables, AI/ML planning, regulations
+- **Organizational** (5 questions) — change management, collaboration, executive sponsorship
+
+Each response produces:
+- **Maturity scores** per pillar with levels: Ad-hoc → Reactive → Defined → Optimized → Leading
+- **Bias & consistency analysis** — flags overconfidence, inconsistencies between related answers, and status quo inertia
+- **Gap analysis** — top improvement opportunities ranked by weighted impact
+- **Improvement roadmap** — prioritized actions with target maturity transitions
+- **Historical tracking** — assessments saved to `~/.energy-audit/assessments/` for trend analysis
 
 ### Profiles
 
@@ -128,6 +174,7 @@ src/energy_audit/
 │   ├── models.py     # Core data models (Server, DataCenter, BoxScore, etc.)
 │   ├── profiles.py   # Data center profile definitions
 │   └── generator.py  # Simulated data generator with seeded RNG
+├── assessment/       # Interactive maturity assessment (survey, bias detection, history)
 ├── scoring/          # Weighted scoring engine
 │   ├── engine.py     # Master orchestrator
 │   ├── weights.py    # All scoring weights (single source of truth)
