@@ -12,6 +12,53 @@ AI Data Center Energy Assessment Tool — analyze energy consumption, identify w
 
 Each pillar produces a weighted score (0–100) with sub-metric breakdowns. The overall facility score combines all three pillars into a single letter grade (A–F).
 
+## Screenshots
+
+### Full Audit Report
+
+<img src="docs/screenshots/full_audit.svg" alt="Full audit output showing scores, sub-metrics, recommendations, and executive summary" />
+
+### Dashboard View
+
+Compact overview for quick assessment:
+
+<img src="docs/screenshots/dashboard.svg" alt="Dashboard with key metrics and top recommendations" />
+
+### Profile Comparison
+
+**Large Hyperscale (5000 servers, Grade B)**
+
+<img src="docs/screenshots/dashboard_hyperscale.svg" alt="Hyperscale facility dashboard showing Grade B" />
+
+**Legacy Mixed (300 servers, Grade F)**
+
+<img src="docs/screenshots/dashboard_legacy.svg" alt="Legacy facility dashboard showing Grade F" />
+
+### Individual Pillar Detail
+
+<details>
+<summary>Box 1: Current Operations</summary>
+
+<img src="docs/screenshots/box1_present.svg" alt="Box 1 Current Operations detail" />
+</details>
+
+<details>
+<summary>Box 2: Legacy & Waste</summary>
+
+<img src="docs/screenshots/box2_forget.svg" alt="Box 2 Legacy and Waste detail" />
+</details>
+
+<details>
+<summary>Box 3: Future Readiness</summary>
+
+<img src="docs/screenshots/box3_future.svg" alt="Box 3 Future Readiness detail" />
+</details>
+
+### Sample Reports
+
+- [Sample PDF Report](docs/samples/sample_report.pdf) — 8-page report with embedded charts, scoring tables, recommendations, and methodology appendix
+- [Sample JSON Export](docs/samples/sample_results.json) — Full machine-readable audit output
+
 ## Features
 
 - Rich terminal output with ASCII gauges, sparklines, and color-coded scoring

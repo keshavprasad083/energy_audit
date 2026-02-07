@@ -8,6 +8,11 @@ build/
 .env
 *.pdf
 *.png
+
+# Allow docs assets
+!docs/**/*.pdf
+!docs/**/*.png
+!docs/**/*.svg
 .DS_Store
 .pytest_cache/
 htmlcov/
