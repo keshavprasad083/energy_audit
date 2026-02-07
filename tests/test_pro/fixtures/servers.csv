@@ -1,9 +1,0 @@
-hostname,server_type,power_watts,cpu_utilization,gpu_utilization,memory_utilization,memory_total_gb,age_months,rack_id
-web-01,cpu,180,65,0,45,64,18,rack-A
-web-02,cpu,175,58,0,40,64,18,rack-A
-db-01,cpu,320,72,0,80,256,24,rack-B
-gpu-train-01,gpu_training,850,30,85,60,512,6,rack-C
-gpu-train-02,gpu_training,920,25,92,55,512,6,rack-C
-gpu-infer-01,gpu_inference,380,20,70,35,256,12,rack-C
-storage-01,storage,120,5,0,30,128,36,rack-D
-zombie-01,cpu,95,1,0,5,32,48,rack-D
