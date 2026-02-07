@@ -58,9 +58,19 @@ Compact overview for quick assessment:
 
 ### Interactive Maturity Assessment
 
-Full assessment report with maturity scores, bias analysis, gap analysis, and improvement roadmap:
+Maturity overview with overall score and per-pillar breakdown:
 
-<img src="docs/screenshots/assessment_report.svg" alt="Interactive maturity assessment report showing pillar scores, bias warnings, gap analysis, and improvement roadmap" />
+<img src="docs/screenshots/assess_overview.svg" alt="Assessment maturity overview showing overall score and three pillar scores" />
+
+Pillar detail with per-question scores and bias analysis:
+
+<img src="docs/screenshots/assess_detail.svg" alt="Pillar detail table with per-question scores, weights, maturity levels, and bias warnings" />
+
+<details>
+<summary>Gap Analysis, Improvement Roadmap & Status Quo Indicators</summary>
+
+<img src="docs/screenshots/assess_roadmap.svg" alt="Gap analysis table, improvement roadmap with maturity transitions, and status quo risk indicators" />
+</details>
 
 <details>
 <summary>Assessment History</summary>
