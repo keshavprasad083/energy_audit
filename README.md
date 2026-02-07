@@ -100,6 +100,43 @@ Pillar detail with per-question scores and bias analysis:
 - Actionable recommendations ranked by savings impact
 - Assessment history tracking with facility comparison over time
 
+## Pro Features
+
+> **[energy-audit-pro](https://github.com/sponsors/keshavprasad083)** adds production-grade capabilities for teams managing real data center infrastructure.
+
+| Feature | Description |
+|---------|-------------|
+| **8 Data Collectors** | CSV, JSON, SNMP, IPMI, Redfish, AWS, Azure, GCP |
+| **Fleet Analysis** | Multi-site comparison, aggregation, and cross-facility benchmarking |
+| **Compliance Checks** | EU Energy Efficiency Directive, ISO 50001, SEC Climate Disclosure |
+| **REST API** | FastAPI-based endpoints for audit and compliance automation |
+
+### How It Works
+
+Install the Pro package alongside the core tool — Pro features activate automatically:
+
+```bash
+pip install energy-audit-pro
+```
+
+Once installed, new commands appear under `energy-audit pro`:
+
+```bash
+energy-audit pro discover --config facility.yaml   # Discover servers via collectors
+energy-audit pro audit --config facility.yaml       # Audit with real data
+energy-audit pro fleet --config sites/*.yaml        # Multi-site fleet analysis
+energy-audit pro compliance --framework eu_eed      # Run compliance checks
+energy-audit pro serve --port 8000                  # Launch REST API
+```
+
+### Pricing
+
+Pro is available through **GitHub Sponsors** with a monthly subscription:
+
+- **Monthly** — access to the latest Pro release, priority support, and all future updates
+
+[Become a sponsor to get access →](https://github.com/sponsors/keshavprasad083)
+
 ## Quick Start
 
 ```bash
