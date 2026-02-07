@@ -133,7 +133,11 @@ energy-audit pro serve --port 8000                  # Launch REST API
 
 Pro is available through **GitHub Sponsors** with a monthly subscription:
 
-- **Monthly** — access to the latest Pro release, priority support, and all future updates
+| Tier | Price | What's Included |
+|------|-------|-----------------|
+| **Individual** | $9/mo | Pro access for personal/non-commercial use. All collectors, fleet analysis, compliance, and REST API. |
+| **Team** | $29/mo | Pro access for up to 5 team members. Priority issue support. |
+| **Enterprise** | $99/mo | Unlimited seats. Dedicated support channel. Custom compliance frameworks on request. |
 
 [Become a sponsor to get access →](https://github.com/sponsors/keshavprasad083)
 
