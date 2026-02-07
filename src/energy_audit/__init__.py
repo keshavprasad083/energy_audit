@@ -19,8 +19,12 @@ from energy_audit.data.profiles import DCProfile, PROFILES, get_profile
 from energy_audit.data.generator import DataCenterGenerator
 from energy_audit.scoring.engine import ScoringEngine
 from energy_audit.recommendations.engine import RecommendationEngine
+from energy_audit.assessment.engine import AssessmentEngine
+from energy_audit.assessment.models import AssessmentResult, MaturityLevel
 
 __all__ = [
+    "AssessmentEngine",
+    "AssessmentResult",
     "AuditResult",
     "BoxScore",
     "DataCenter",
@@ -28,6 +32,7 @@ __all__ = [
     "DataCenterConfig",
     "DCProfile",
     "Grade",
+    "MaturityLevel",
     "PROFILES",
     "RecommendationEngine",
     "Recommendation",

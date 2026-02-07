@@ -230,3 +230,116 @@ def _export_json(result: AuditResult, path: str, console: Console) -> None:
     with open(path, "w") as f:
         f.write(result.model_dump_json(indent=2))
     console.print(f"  [green]JSON report exported to:[/green] {path}")
+
+
+# ---------------------------------------------------------------------------
+# Interactive Maturity Assessment
+# ---------------------------------------------------------------------------
+
+@cli.command()
+@click.option(
+    "--history", is_flag=True, default=False,
+    help="View past assessment history",
+)
+@click.option(
+    "--compare", is_flag=True, default=False,
+    help="Compare the two most recent assessments for a facility",
+)
+@click.option(
+    "--facility", "-f", type=str, default=None,
+    help="Facility name (for --history or --compare)",
+)
+@click.option(
+    "--export-pdf", type=click.Path(), default=None,
+    help="Export assessment report to PDF",
+)
+@click.pass_context
+def assess(
+    ctx: click.Context,
+    history: bool,
+    compare: bool,
+    facility: str | None,
+    export_pdf: str | None,
+) -> None:
+    """Run an interactive energy maturity assessment survey.
+
+    \b
+    Answer 35 questions about your data center operations to receive:
+      - Maturity scores across three assessment pillars
+      - Bias and consistency analysis
+      - Gap analysis and improvement roadmap
+      - Status quo risk indicators
+    """
+    console: Console = ctx.obj["console"]
+
+    from energy_audit.assessment.engine import AssessmentEngine
+    from energy_audit.assessment.history import (
+        compare_assessments,
+        get_all_history,
+        get_facility_history,
+        get_latest_assessment,
+        load_assessment,
+        save_assessment,
+    )
+    from energy_audit.assessment.report import AssessmentRenderer
+
+    renderer = AssessmentRenderer(console)
+
+    # --history mode
+    if history:
+        if facility:
+            entries = get_facility_history(facility)
+        else:
+            entries = get_all_history()
+
+        formatted = [
+            {
+                "facility": e.facility_name,
+                "assessor": e.assessor_name,
+                "date": e.timestamp.strftime("%Y-%m-%d"),
+                "score": e.overall_score,
+                "grade": e.overall_grade.value,
+                "grade_color": e.overall_grade.color,
+                "maturity": e.overall_maturity.value,
+                "maturity_color": e.overall_maturity.color,
+            }
+            for e in entries
+        ]
+        renderer.render_history(formatted, facility_filter=facility)
+        return
+
+    # --compare mode
+    if compare:
+        if not facility:
+            console.print("[red]--compare requires --facility/-f to specify which facility[/]")
+            return
+        entries = get_facility_history(facility)
+        if len(entries) < 2:
+            console.print(
+                f"[yellow]Need at least 2 assessments for '{facility}' to compare. "
+                f"Found {len(entries)}.[/]"
+            )
+            return
+        result_b = load_assessment(entries[0].file_path)
+        result_a = load_assessment(entries[1].file_path)
+        comp = compare_assessments(result_a, result_b)
+        renderer.render_comparison(comp, result_a, result_b)
+        return
+
+    # Interactive assessment
+    previous = None
+    if facility:
+        previous = get_latest_assessment(facility)
+
+    engine = AssessmentEngine(console)
+    result = engine.run(previous=previous)
+
+    # Save
+    path = save_assessment(result)
+    console.print(f"\n  [green]Assessment saved to:[/green] {path}")
+
+    # Render report
+    renderer.render(result)
+
+    if export_pdf:
+        console.print("[yellow]PDF export for assessments coming soon.[/]")
