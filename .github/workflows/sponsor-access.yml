@@ -1,0 +1,32 @@
+name: Manage Sponsor Access
+
+on:
+  sponsorship:
+    types: [created, cancelled, tier_changed]
+
+jobs:
+  manage-access:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Grant repo access on new sponsorship
+        if: github.event.action == 'created' || github.event.action == 'tier_changed'
+        env:
+          GH_TOKEN: ${{ secrets.PRO_REPO_TOKEN }}
+        run: |
+          SPONSOR="${{ github.event.sponsorship.sponsor.login }}"
+          echo "Adding $SPONSOR as collaborator to energy-audit-pro"
+          gh api \
+            --method PUT \
+            "repos/keshavprasad083/energy-audit-pro/collaborators/$SPONSOR" \
+            -f permission=pull
+
+      - name: Revoke repo access on cancellation
+        if: github.event.action == 'cancelled'
+        env:
+          GH_TOKEN: ${{ secrets.PRO_REPO_TOKEN }}
+        run: |
+          SPONSOR="${{ github.event.sponsorship.sponsor.login }}"
+          echo "Removing $SPONSOR from energy-audit-pro"
+          gh api \
+            --method DELETE \
+            "repos/keshavprasad083/energy-audit-pro/collaborators/$SPONSOR"
