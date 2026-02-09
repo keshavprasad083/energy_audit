@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>energy-audit — AI Data Center Energy Assessment Tool</title>
+  <meta name="description" content="Assess data center energy consumption, identify waste, and plan for sustainable growth across three assessment pillars.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-code: #1c2128;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --cyan: #39d0d8;
+      --green: #3fb950;
+      --yellow: #d29922;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --max-width: 1100px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; }
+    nav .logo { font-weight: 700; font-size: 1.15rem; color: var(--text); }
+    nav .logo span { color: var(--cyan); }
+    nav ul { list-style: none; display: flex; gap: 24px; }
+    nav ul a { color: var(--text-muted); font-size: 0.9rem; }
+    nav ul a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 100px 0 80px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(57, 208, 216, 0.08) 0%, transparent 60%);
+    }
+    .hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.15; margin-bottom: 16px; }
+    .hero h1 span { color: var(--cyan); }
+    .hero .tagline { font-size: 1.25rem; color: var(--text-muted); max-width: 640px; margin: 0 auto 32px; }
+    .hero .install-cmd {
+      display: inline-block;
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.95rem;
+      color: var(--green);
+      margin-bottom: 32px;
+    }
+    .hero .install-cmd .prompt { color: var(--text-muted); }
+    .cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { text-decoration: none; opacity: 0.9; }
+    .btn-primary { background: var(--cyan); color: #0d1117; }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+
+    /* ── Sections ── */
+    section { padding: 80px 0; }
+    section:nth-child(even) { background: var(--bg-card); }
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Pillars ── */
+    .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .pillar {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      transition: border-color 0.2s;
+    }
+    .pillar:hover { border-color: var(--cyan); }
+    .pillar .icon { font-size: 2rem; margin-bottom: 12px; }
+    .pillar h3 { font-size: 1.2rem; margin-bottom: 4px; }
+    .pillar .label { color: var(--cyan); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .pillar p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* ── Features Grid ── */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .feature {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .feature .icon { font-size: 1.5rem; margin-bottom: 8px; }
+    .feature h4 { font-size: 1rem; margin-bottom: 6px; }
+    .feature p { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* ── Screenshots ── */
+    .screenshots-nav {
+      display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px;
+    }
+    .screenshots-nav label {
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      transition: all 0.15s;
+    }
+    .screenshots-nav label:hover { border-color: var(--cyan); color: var(--text); }
+    .screenshot-panels input[type="radio"] { display: none; }
+    .screenshot-panel { display: none; text-align: center; }
+    #ss-dashboard:checked ~ .screenshot-panels .panel-dashboard,
+    #ss-audit:checked ~ .screenshot-panels .panel-audit,
+    #ss-box1:checked ~ .screenshot-panels .panel-box1,
+    #ss-box2:checked ~ .screenshot-panels .panel-box2,
+    #ss-box3:checked ~ .screenshot-panels .panel-box3,
+    #ss-assess:checked ~ .screenshot-panels .panel-assess { display: block; }
+    #ss-dashboard:checked ~ .screenshots-nav label[for="ss-dashboard"],
+    #ss-audit:checked ~ .screenshots-nav label[for="ss-audit"],
+    #ss-box1:checked ~ .screenshots-nav label[for="ss-box1"],
+    #ss-box2:checked ~ .screenshots-nav label[for="ss-box2"],
+    #ss-box3:checked ~ .screenshots-nav label[for="ss-box3"],
+    #ss-assess:checked ~ .screenshots-nav label[for="ss-assess"] {
+      background: var(--cyan); color: #0d1117; border-color: var(--cyan);
+    }
+    .screenshot-panel img {
+      max-width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+    .screenshot-panel .caption {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+
+    /* ── Scoring ── */
+    .grades-table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    .grades-table th, .grades-table td {
+      padding: 10px 24px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .grades-table th { color: var(--text-muted); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
+    .grade-a { color: var(--green); font-weight: 700; }
+    .grade-b { color: var(--green); font-weight: 700; }
+    .grade-c { color: var(--yellow); font-weight: 700; }
+    .grade-d { color: var(--red); font-weight: 700; }
+    .grade-f { color: var(--red); font-weight: 700; }
+
+    /* ── Pro / Pricing ── */
+    .pro-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .pro-feature {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .pro-feature .icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .pro-feature h4 { font-size: 0.95rem; margin-bottom: 4px; }
+    .pro-feature p { color: var(--text-muted); font-size: 0.85rem; }
+
+    .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .tier {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+    .tier:hover { border-color: var(--cyan); }
+    .tier.featured { border-color: var(--cyan); }
+    .tier.featured::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--cyan);
+      color: #0d1117;
+      padding: 2px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .tier h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .tier .price { font-size: 2.5rem; font-weight: 800; margin-bottom: 4px; }
+    .tier .price span { font-size: 1rem; font-weight: 400; color: var(--text-muted); }
+    .tier .desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; min-height: 44px; }
+    .tier ul { list-style: none; text-align: left; margin-bottom: 24px; }
+    .tier ul li { padding: 6px 0; font-size: 0.9rem; color: var(--text-muted); }
+    .tier ul li::before { content: '\2713'; color: var(--green); margin-right: 8px; font-weight: 700; }
+
+    /* ── Quick Start ── */
+    .code-block {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .code-block .comment { color: var(--text-muted); }
+    .code-block .cmd { color: var(--green); }
+    .code-block .prompt { color: var(--text-muted); }
+    .code-block .flag { color: var(--cyan); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    footer .links { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; }
+    footer .links a { color: var(--text-muted); }
+    footer .links a:hover { color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero .tagline { font-size: 1.05rem; }
+      nav ul { gap: 14px; }
+      nav ul a { font-size: 0.8rem; }
+      section { padding: 56px 0; }
+      .section-title { font-size: 1.6rem; }
+    }
+    @media (max-width: 480px) {
+      nav ul { display: none; }
+      .hero h1 { font-size: 1.6rem; }
+      .pillars, .pricing { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="container">
+    <div class="logo"><span>energy</span>-audit</div>
+    <ul>
+      <li><a href="#pillars">Pillars</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#screenshots">Screenshots</a></li>
+      <li><a href="#pro">Pro</a></li>
+      <li><a href="#quickstart">Quick Start</a></li>
+      <li><a href="https://github.com/keshavprasad083/energy_audit">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <h1>AI Data Center<br><span>Energy Assessment</span></h1>
+    <p class="tagline">Analyze energy consumption, identify waste, and plan for sustainable growth across three assessment pillars.</p>
+    <div class="install-cmd"><span class="prompt">$ </span>pip install energy-audit</div>
+    <div class="cta-group">
+      <a href="#quickstart" class="btn btn-primary">Get Started</a>
+      <a href="https://github.com/keshavprasad083/energy_audit" class="btn btn-secondary">View on GitHub</a>
+    </div>
+  </div>
+</header>
+
+<!-- Three Pillars -->
+<section id="pillars">
+  <div class="container">
+    <h2 class="section-title">Three Assessment Pillars</h2>
+    <p class="section-subtitle">Every audit evaluates your data center across three dimensions, producing a weighted overall score and letter grade.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="icon">&#9889;</div>
+        <div class="label">Box 1 &middot; 40% weight</div>
+        <h3>Current Operations</h3>
+        <p>PUE efficiency, server utilization, energy cost analysis, cooling performance, availability metrics, and carbon intensity scoring.</p>
+      </div>
+      <div class="pillar">
+        <div class="icon">&#128465;</div>
+        <div class="label">Box 2 &middot; 30% weight</div>
+        <h3>Legacy &amp; Waste</h3>
+        <p>Zombie server detection, over-provisioned resources, legacy hardware identification, cooling waste analysis, and stranded capacity.</p>
+      </div>
+      <div class="pillar">
+        <div class="icon">&#128640;</div>
+        <div class="label">Box 3 &middot; 30% weight</div>
+        <h3>Future Readiness</h3>
+        <p>Capacity forecasting, hardware refresh planning, workload scheduling optimization, renewable energy adoption, and efficiency trends.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">Features</h2>
+    <p class="section-subtitle">Everything you need to understand and improve your data center's energy footprint.</p>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="icon">&#127912;</div>
+        <h4>Rich Terminal Output</h4>
+        <p>ASCII gauges, sparklines, color-coded scoring, and formatted tables powered by Rich.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">&#128203;</div>
+        <h4>PDF Reports</h4>
+        <p>Publication-ready reports with embedded Matplotlib charts — radar, pie, histogram, heatmap, and more.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">&#128221;</div>
+        <h4>Maturity Assessment</h4>
+        <p>35-question interactive survey with anti-bias detection, gap analysis, and improvement roadmap.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">&#128190;</div>
+        <h4>JSON Export</h4>
+        <p>Full machine-readable output for integration with dashboards, CI/CD pipelines, and monitoring tools.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">&#127981;</div>
+        <h4>4 Built-in Profiles</h4>
+        <p>Small startup (50 servers), medium enterprise (500), large hyperscale (5000), and legacy mixed (300).</p>
+      </div>
+      <div class="feature">
+        <div class="icon">&#128200;</div>
+        <h4>Assessment History</h4>
+        <p>Track maturity scores over time with facility-level comparison and trend analysis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Screenshots -->
+<section id="screenshots">
+  <div class="container">
+    <h2 class="section-title">See It in Action</h2>
+    <p class="section-subtitle">Terminal output rendered with Rich for clear, actionable insights at a glance.</p>
+
+    <input type="radio" name="ss" id="ss-dashboard" checked>
+    <input type="radio" name="ss" id="ss-audit">
+    <input type="radio" name="ss" id="ss-box1">
+    <input type="radio" name="ss" id="ss-box2">
+    <input type="radio" name="ss" id="ss-box3">
+    <input type="radio" name="ss" id="ss-assess">
+
+    <div class="screenshots-nav">
+      <label for="ss-dashboard">Dashboard</label>
+      <label for="ss-audit">Full Audit</label>
+      <label for="ss-box1">Box 1</label>
+      <label for="ss-box2">Box 2</label>
+      <label for="ss-box3">Box 3</label>
+      <label for="ss-assess">Assessment</label>
+    </div>
+
+    <div class="screenshot-panels">
+      <div class="screenshot-panel panel-dashboard">
+        <img src="screenshots/dashboard.svg" alt="Dashboard view with key metrics and top recommendations" loading="lazy">
+        <p class="caption">Compact dashboard view with key metrics, grades, and top recommendations</p>
+      </div>
+      <div class="screenshot-panel panel-audit">
+        <img src="screenshots/full_audit.svg" alt="Full audit output showing scores, sub-metrics, recommendations, and executive summary" loading="lazy">
+        <p class="caption">Complete audit report with scoring breakdown, recommendations, and executive summary</p>
+      </div>
+      <div class="screenshot-panel panel-box1">
+        <img src="screenshots/box1_present.svg" alt="Box 1 Current Operations detail" loading="lazy">
+        <p class="caption">Box 1: Current Operations — PUE, utilization, cost, cooling, availability, carbon</p>
+      </div>
+      <div class="screenshot-panel panel-box2">
+        <img src="screenshots/box2_forget.svg" alt="Box 2 Legacy and Waste detail" loading="lazy">
+        <p class="caption">Box 2: Legacy &amp; Waste — zombies, over-provisioning, legacy hardware, cooling waste</p>
+      </div>
+      <div class="screenshot-panel panel-box3">
+        <img src="screenshots/box3_future.svg" alt="Box 3 Future Readiness detail" loading="lazy">
+        <p class="caption">Box 3: Future Readiness — forecasting, refresh planning, renewables, efficiency trends</p>
+      </div>
+      <div class="screenshot-panel panel-assess">
+        <img src="screenshots/assess_overview.svg" alt="Assessment maturity overview" loading="lazy">
+        <p class="caption">Interactive maturity assessment with per-pillar scores and maturity levels</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Scoring -->
+<section id="scoring">
+  <div class="container">
+    <h2 class="section-title">Scoring System</h2>
+    <p class="section-subtitle">Overall Score = Box 1 (40%) + Box 2 (30%) + Box 3 (30%)</p>
+    <table class="grades-table">
+      <thead>
+        <tr><th>Grade</th><th>Score</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="grade-a">A</td><td>85 &ndash; 100</td><td>Excellent</td></tr>
+        <tr><td class="grade-b">B</td><td>70 &ndash; 84</td><td>Good</td></tr>
+        <tr><td class="grade-c">C</td><td>55 &ndash; 69</td><td>Average</td></tr>
+        <tr><td class="grade-d">D</td><td>40 &ndash; 54</td><td>Below Average</td></tr>
+        <tr><td class="grade-f">F</td><td>0 &ndash; 39</td><td>Critical</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Pro -->
+<section id="pro">
+  <div class="container">
+    <h2 class="section-title">Pro Features</h2>
+    <p class="section-subtitle">Production-grade capabilities for teams managing real data center infrastructure.</p>
+
+    <div class="pro-features">
+      <div class="pro-feature">
+        <div class="icon">&#128268;</div>
+        <h4>8 Data Collectors</h4>
+        <p>CSV, JSON, SNMP, IPMI, Redfish, AWS, Azure, GCP</p>
+      </div>
+      <div class="pro-feature">
+        <div class="icon">&#127760;</div>
+        <h4>Fleet Analysis</h4>
+        <p>Multi-site comparison and cross-facility benchmarking</p>
+      </div>
+      <div class="pro-feature">
+        <div class="icon">&#9989;</div>
+        <h4>Compliance</h4>
+        <p>EU EED, ISO 50001, SEC Climate Disclosure</p>
+      </div>
+      <div class="pro-feature">
+        <div class="icon">&#128421;</div>
+        <h4>REST API</h4>
+        <p>FastAPI endpoints for audit and compliance automation</p>
+      </div>
+    </div>
+
+    <div class="pricing">
+      <div class="tier">
+        <h3>Individual</h3>
+        <div class="price">$9<span>/mo</span></div>
+        <p class="desc">For personal and non-commercial use</p>
+        <ul>
+          <li>All 8 data collectors</li>
+          <li>Fleet analysis</li>
+          <li>Compliance checks</li>
+          <li>REST API</li>
+        </ul>
+        <a href="https://github.com/sponsors/keshavprasad083" class="btn btn-secondary">Sponsor</a>
+      </div>
+      <div class="tier featured">
+        <h3>Team</h3>
+        <div class="price">$29<span>/mo</span></div>
+        <p class="desc">For up to 5 team members</p>
+        <ul>
+          <li>Everything in Individual</li>
+          <li>5 seats included</li>
+          <li>Priority issue support</li>
+          <li>All future updates</li>
+        </ul>
+        <a href="https://github.com/sponsors/keshavprasad083" class="btn btn-primary">Sponsor</a>
+      </div>
+      <div class="tier">
+        <h3>Enterprise</h3>
+        <div class="price">$99<span>/mo</span></div>
+        <p class="desc">Unlimited seats with dedicated support</p>
+        <ul>
+          <li>Everything in Team</li>
+          <li>Unlimited seats</li>
+          <li>Dedicated support channel</li>
+          <li>Custom compliance frameworks</li>
+        </ul>
+        <a href="https://github.com/sponsors/keshavprasad083" class="btn btn-secondary">Sponsor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Start -->
+<section id="quickstart">
+  <div class="container">
+    <h2 class="section-title">Quick Start</h2>
+    <p class="section-subtitle">Up and running in under a minute.</p>
+    <div class="code-block">
+      <span class="comment"># Install</span><br>
+      <span class="prompt">$ </span><span class="cmd">pip install energy-audit</span><br><br>
+      <span class="comment"># Run a full audit</span><br>
+      <span class="prompt">$ </span><span class="cmd">energy-audit run</span> <span class="flag">-p medium_enterprise -s 42</span><br><br>
+      <span class="comment"># Export PDF report</span><br>
+      <span class="prompt">$ </span><span class="cmd">energy-audit run</span> <span class="flag">-p large_hyperscale --export-pdf report.pdf</span><br><br>
+      <span class="comment"># Compact dashboard</span><br>
+      <span class="prompt">$ </span><span class="cmd">energy-audit dashboard</span> <span class="flag">-p medium_enterprise</span><br><br>
+      <span class="comment"># Interactive maturity assessment</span><br>
+      <span class="prompt">$ </span><span class="cmd">energy-audit assess</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="links">
+      <a href="https://github.com/keshavprasad083/energy_audit">GitHub</a>
+      <a href="https://github.com/keshavprasad083/energy_audit/blob/main/README.md">Docs</a>
+      <a href="https://github.com/keshavprasad083/energy_audit/blob/main/CONTRIBUTING.md">Contributing</a>
+      <a href="https://github.com/sponsors/keshavprasad083">Sponsor</a>
+      <a href="https://github.com/keshavprasad083/energy_audit/blob/main/LICENSE">License</a>
+    </div>
+    <p>energy-audit is open source under AGPL-3.0. Pro features are available via <a href="https://github.com/sponsors/keshavprasad083">GitHub Sponsors</a>.</p>
+  </div>
+</footer>
+
+</body>
+</html>
